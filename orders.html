@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <link
+    href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css"
+    rel="stylesheet"
+/>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+<link rel="stylesheet" href="st1.css">
+
+<style>
+     .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border: 1px solid #888;
+            padding: 20px;
+            background-color: rgb(136, 14, 14);
+            z-index: 1000;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            background-color:yellow;
+        }
+        .popup .close {
+            cursor: pointer;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 20px;
+        }
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 999;
+        }
+   
+</style>
+
+
+</head>
+<body>
+
+
+
+
+    
+    <section class="popular section row" id="popular">
+    <h2 class="section__title p1">Most Devoured  Burgers</h2>
+    <div class="popular__container grid  ">
+        <article class="popular__card">
+            <img src="./images/pchick.png" alt="" class="popular__img">
+            <h2 class="popular__title"> Chicken  Burger</h2>
+            <span class="popular__price">$6</span>
+            <button onclick="showPopup('Chicken Burger')" class="popular__button">
+                <i class="ri-shopping-bag-3-fill"></i>
+            </button>
+        </article>
+        <article class="popular__card ">
+            <img src="./images/popular-burger-meat.png" alt="" class="popular__img">
+            <h2 class="popular__title">Meat  Burger</h2>
+            <span class="popular__price">$10</span>
+            <button onclick="showPopup('Meat Burger')" class="popular__button">
+                <i class="ri-shopping-bag-3-fill"></i>
+            </button>
+        </article>
+        <article class="popular__card">
+            <img src="./images/popular-burger-grill.png" alt="" class="popular__img">
+            <h2 class="popular__title">Grill  Burger</h2>
+            <span class="popular__price">$12</span>
+            <button onclick="showPopup('Grill Burger')" class="popular__button">
+                <i class="ri-shopping-bag-3-fill"></i>
+            </button>
+        </article>
+        <article class="popular__card">
+            <img src="./images/popular-burger-classic.png" alt="" class="popular__img">
+            <h2 class="popular__title">Classic  Burger</h2>
+            <span class="popular__price">$8</span>
+            <button onclick="showPopup('Classic Burger')" class="popular__button">
+                <i class="ri-shopping-bag-3-fill"></i>
+            </button>
+        </article>
+        <article class="popular__card">
+            <img src="./images/popular-burger-big.png" alt="" class="popular__img">
+            <h2 class="popular__title" >Big  Burger</h2>
+            <span class="popular__price">$15</span>
+            <button onclick="showPopup('Big Burger')" class="popular__button">
+                <i class="ri-shopping-bag-3-fill"></i>
+            </button>
+        </article>
+    </div>
+   
+    </section>
+
+    <div class="overlay" id="overlay"></div>
+
+    <div class="popup" id="popup">
+        <span class="close" onclick="closePopup()">&times;</span>
+        <form id="orderForm" onsubmit="placeOrder(event)">
+            <input type="hidden" id="burgerType" name="burgerType">
+            <div class="mb-3">
+                <label for="name" class="form-label">Name:</label>
+                <input type="text" class="form-control" id="name" name="name" required>
+            </div>
+            <div class="mb-3">
+                <label for="name" class="form-label">Quantity:</label>
+                <input type="text" class="form-control" id="quantity" name="name" required>
+            </div>
+            <div class="mb-3">
+                <label for="address" class="form-label">Delivery Address:</label>
+                <textarea class="form-control" id="address" name="address" rows="4" required></textarea>
+            </div>
+            <div class="mb-3">
+                <label for="paymentMethod" class="form-label">Payment Method:</label><br>
+                <input type="radio" id="cashOnDelivery" name="paymentMethod" value="Cash on Delivery" required>
+                <label for="cashOnDelivery">Cash on Delivery</label><br>
+                <input type="radio" id="googlePay" name="paymentMethod" value="Google Pay">
+                <label for="googlePay">Google Pay</label><br>
+                
+            </div>
+
+            <button type="submit" class="btn btn-primary">Place Order</button>
+        </form>
+    </div>
+    
+    
+
+</body>
+
+<script>
+    function showPopup(burgerType) {
+        document.getElementById('burgerType').value = burgerType;
+        document.getElementById('popup').style.display = 'block';
+        document.getElementById('overlay').style.display = 'block';
+    }
+
+    function closePopup() {
+        document.getElementById('popup').style.display = 'none';
+        document.getElementById('overlay').style.display = 'none';
+    }
+
+    function placeOrder(event) {
+        event.preventDefault(); // Prevent form from submitting the traditional way
+        const name = document.getElementById('name').value;
+        const quantity = document.getElementById('quantity').value;
+        const address = document.getElementById('address').value;
+        const burgerType = document.getElementById('burgerType').value;
+        const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked').value;
+
+if (paymentMethod === 'Google Pay') {
+    window.location.href = 'https://pay.google.com/'; // Redirect to Google Pay
+} else {
+    alert(`Order placed!\nName: ${name}\nDelivery Address: ${address}\nBurger: ${burgerType}\nPayment Method: ${paymentMethod}`);
+}
+document.getElementById('orderForm').reset();
+closePopup();
+
+    }
+</script>
+</html>
